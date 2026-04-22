@@ -1,6 +1,6 @@
 ---
 layout: default
-date: 2020-02-12
+date: 2026-04-23
 ---
 
 <div class='mainitem' id='about'>
@@ -11,104 +11,6 @@ date: 2020-02-12
 	    He received his PhD degree in computer science from Xiamen University in 2018. 
 	    His current research interests include computer vision and machine learning.
 	</p>
-
-</div>
-
-
-<div class='mainitem' id='news'>
-	<div class='mainheader'>News</div>
-
-	{% assign sortednews = site.news | sort: 'date','last' | reverse %}
-
-	{% for newsitem in sortednews limit: 5 %}
-
-		<div class='row newsitem'>
-			<div class='col-md-3 col-lg-2 newsdate'>{{ newsitem.date | date: "%B %Y" }}</div>
-			<div class='col-md-9 col-lg-10 newscontent'>{{ newsitem.content }}</div>
-		</div>
-
-	{% endfor %}
-
-</div>
-
-
-<div class='mainitem' id='publications'> 
-
-	<div class='mainheader'>Publications</div>
-
-	{% assign sorted_pubs = site.data.publications | sort: 'date' | reverse %}
-
-	{% for pub in sorted_pubs %}
-
-		<div class='row pub'>
-
-			{% capture mainlink %}
-				{% assign firstlink = pub.links[0] %}
-				{% if firstlink.target %}
-					{{ firstlink.target }}
-				{% elsif firstlink.type == 'pdf' %}
-					pdf/{{ pub.id }}.pdf
-				{% else %}
-					/
-				{% endif %}
-			{% endcapture %}
-
-			<div class='col-lg-3 col-md-4 col-xs-4 pubimagesection'>
-				<img class='pubimage img img-responsive' src='img/pubthumbs/{{ pub.id }}.png' width='200'/>
-			</div>
-
-			<div class='col-lg-9 col-md-8 col-xs-8 pubtextsection'>
-
-				<div class='pubtitle'>
-					<a target='_blank' href='{{ mainlink }}'>{{ pub.title }}</a>
-				</div>
-
-				<div class='pubauthors'>
-					{% for author in pub.authors %}
-						{% if forloop.last %}{% unless forloop.first %} and {% endunless %}{% endif %}
-						{% if site.data.people[author] %}
-							<a class='pubauthor' target='_blank' href='{{ site.data.people[author] }}'>
-								{{ author }}{% if forloop.last == false %}{% unless forloop.length == 2 %}, {% endunless %}{% endif %}
-							</a>
-						{% else %}
-							{{ author }}{% if forloop.last == false %}{% unless forloop.length == 2 %}, {% endunless %}{% endif %}
-						{% endif %}
-					{% endfor %}
-				</div>
-
-
-				<div class='pubvenue'>{{ pub.venue }}</div>
-
-				{% for link in pub.links %}
-					{% if forloop.first == false %} | {% endif %}
-
-					{% capture lname %}
-						{% if link.type == 'link' %}
-							{{ link.name }}
-						{% else %}
-							{{ link.type }}
-						{% endif %}
-					{% endcapture %}
-
-					{% capture ltarget %}
-						{% if link.type == 'link' %}
-							{{ link.target }}
-						{% else %}
-							{{ link.type }}/{% if link.target %}{{ link.target }}{% else %}{{ pub.id }}.{{ site.data.extensions[link.type] }}{% endif %}
-						{% endif %}
-					{% endcapture %}
-
-					<a class='publink' target='_blank' href='{{ ltarget }}'>{{ lname }}</a>
-				{% endfor %}
-
-				{% if pub.award %}
-					<div><span class='label pubaward'>{{ pub.award }}</span></div>
-				{% endif %}
-
-			</div>
-
-		</div>
-	{% endfor %}
 
 </div>
 
